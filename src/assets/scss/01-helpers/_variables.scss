@@ -1,5 +1,6 @@
 // Font Family
-$roboto: 'Roboto', sans-serif;
+$body-font-family: 'Roboto', sans-serif;
+$heading-font-family: 'Roboto', sans-serif;
 
 // Responsive Variables
 $extraBig-device: 'only screen and (min-width: 1550px)';
@@ -32,6 +33,7 @@ $white: #FFFFFF;
 $black: #000000;
 $grey: #F8F9FD;
 
+/* Don't Edit those variables below */
 // theme colors map
 $theme-colors: (
   'primary': $primary,
@@ -84,13 +86,13 @@ $grid-gutter-width: 30px;
 //
 $gutters: $spacers;
 // Transition
-$transition-base: all 0.5s ease 0s;
+$transition-base: all 0.5s ease 0s; // Can change if needed
 
 // Typography
-$font-family-base: $roboto;
-$font-size-base: 1.125rem;
-$line-height-base: 1.75;
+$font-family-base: $body-font-family;
+$font-size-base: 1.125rem; // change as per need
+$line-height-base: 1.75; // change as per need
 //
-$headings-font-family: $roboto;
-$headings-font-weight: 700;
-$headings-line-height: 1.2;
+$headings-font-family: $heading-font-family;
+$headings-font-weight: 700; // change as per need
+$headings-line-height: 1.2; // change as per need
