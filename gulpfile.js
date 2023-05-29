@@ -7,9 +7,8 @@ var gulp = require('gulp'),
     beautifyCode = require('gulp-beautify-code'),
     cssnano = require('gulp-cssnano'),
     
-	extReplace = require('gulp-ext-replace'),
     imagemin = require('gulp-imagemin'),
-	webp = require('imagemin-webp'),
+    changed = require('gulp-changed')
 
     // Source Folder Locations
     src = {
@@ -26,14 +25,14 @@ var gulp = require('gulp'),
 
     // Destination Folder Locations
     dest = {
-        'root': './dest/',
-        'css': './dest/assets/css',
-        'cssPages': './dest/assets/css/pages',
-        'fonts': './dest/assets/fonts/',
-        'images': './dest/assets/images/',
-        'js': './dest/assets/js',
-        'php': './dest/assets/php/',
-        'scss': './dest/assets/scss/'
+        'root': './dist/',
+        'css': './dist/assets/css',
+        'cssPages': './dist/assets/css/pages',
+        'fonts': './dist/assets/fonts/',
+        'images': './dist/assets/images/',
+        'js': './dist/assets/js',
+        'php': './dist/assets/php/',
+        'scss': './dist/assets/scss/'
     };
 
 
@@ -53,7 +52,7 @@ gulp.task('html', function(done) {
 
 /*-- Assets Copy Task --*/
 function copy(folder, done) {
-	gulp.src(`./src/assets/${folder}/**/*`).pipe(gulp.dest(`./dest/assets/${folder}`))
+	gulp.src(`./src/assets/${folder}/**/*`).pipe(gulp.dest(`./dist/assets/${folder}`))
 	done()
 }
 gulp.task('css', function (done) {copy('css', done)})
@@ -68,7 +67,7 @@ gulp.task('bootstrap', function (done) {
 		.pipe(sass().on('error', sass.logError))
 		.pipe(concat('bootstrap.min.css'))
 		.pipe(autoprefixer()).pipe(cssnano())
-		.pipe(gulp.dest('./dest/assets/css/vendor/'))
+		.pipe(gulp.dest(dest.css))
 		.pipe(browserSync.stream()) 
 	done()
 })
@@ -84,24 +83,15 @@ gulp.task('style', function (done) {
 		.pipe(browserSync.stream()) 
 	done()
 })
-gulp.task('stylePages', function (done) {
-	gulp.src('./src/assets/scss/05-pages/*.scss')
-		.pipe(sass().on('error', sass.logError))
-		.pipe(autoprefixer())
-		.pipe(gulp.dest(dest.cssPages))
-		.pipe(extReplace('.min.css'))
-		.pipe(autoprefixer()).pipe(cssnano())
-		.pipe(gulp.dest(dest.cssPages))
-		.pipe(browserSync.stream()) 
-	done()
-})
 
 /*-- Image Optimization, SVG & GIF Image Copy --*/
 gulp.task('images', function (done) {
-	const imageSrc = ['./src/assets/images/**/*.png', './src/assets/images/**/*.jpg', './src/assets/images/**/*.jpeg', './src/assets/images/**/*.webp']
+	const imageSrc = ['./src/assets/images/**/*.png', './src/assets/images/**/*.jpg', './src/assets/images/**/*.jpeg']
 	gulp.src(imageSrc)
-		.pipe(imagemin([webp({ quality: 85 })]))
-		.pipe(extReplace('.webp'))
+        .pipe(changed(dest.images))
+		.pipe(imagemin({
+            verbose: true
+        }))
 		.pipe(gulp.dest(dest.images))
 	done()
 })
@@ -119,11 +109,11 @@ function watchFiles() {
     gulp.watch(src.js, gulp.series(['js', 'html'], reload));
     gulp.watch(src.php, gulp.series(['php', 'html'], reload));
     gulp.watch(src.images, gulp.series(['images', 'svgGif', 'html'], reload));
-    gulp.watch(src.scss, gulp.series(['bootstrap', 'style', 'stylePages']));
+    gulp.watch(src.scss, gulp.series(['style', 'bootstrap']));
 }
 
 /*-- All Default Task --*/
-gulp.task('defaultTask', gulp.series('html', 'css', 'fonts', 'js', 'php', 'scss', 'bootstrap', 'style', 'stylePages', 'images', 'svgGif'));
+gulp.task('defaultTask', gulp.series('html', 'css', 'fonts', 'js', 'php', 'scss', 'style', 'bootstrap', 'images', 'svgGif'));
 
 /*-- Default --*/
 gulp.task('default', gulp.series('defaultTask', gulp.parallel(liveBrowserSync, watchFiles)));
