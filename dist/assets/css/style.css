@@ -2,7 +2,7 @@
 /*-----------------------------------------------------------------------------------
 
     Template Name: Learts – Handmade Shop eCommerce HTML Template
-    Version: 1.0
+    Version: 1.0.0
 
 -----------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
     00 - Helpers (Variables & Mixins)
     01 - Basic (Typography, Common Classes)
-        01.01 - Typrography
+        01.01 - Typography
         01.02 - Common Classes
     02 - Layout (Header, Footer, Section, Main Container/Wrapper and Page Header Styles)
         02.01 - Header
@@ -21,6 +21,7 @@
     04 - Pages (Single Pages Specify Styles)
 
 -----------------------------------------------------------------------------------*/
+/* Don't Edit those variables below */
 /*----------------------------------------*/
 /*  01. Template default CSS
 /*----------------------------------------*/
