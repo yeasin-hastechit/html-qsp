@@ -7,7 +7,7 @@
     "predev": "rimraf dist",
     "dev": "gulp"
   },
-  "author": "Hastech",
+  "author": "Yeasin01",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.29.3",
